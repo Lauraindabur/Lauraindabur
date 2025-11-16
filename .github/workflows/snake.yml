@@ -1,20 +1,20 @@
-name: Generar Snake Game
+name: Generate Snake
 on:
   schedule:
-    # Se ejecuta diariamente a medianoche UTC
     - cron: "0 0 * * *" 
   workflow_dispatch:
 
 jobs:
-  build:
+  generate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write 
     steps:
-      - uses: actions/checkout@v4
-      - uses: Platane/snk@v3
+      - uses: actions/checkout@v4 
+      - name: generate github-contribution-grid-snake.svg
+        uses: Platane/snk@v3
         with:
-          # Tu nombre de usuario de GitHub
           github_user_name: ${{ github.repository_owner }}
-          # Lista de archivos a generar (incluye soporte para modo oscuro)
           outputs: |
             dist/github-snake.svg
             dist/github-snake-dark.svg?palette=github-dark
