@@ -1,20 +1,16 @@
 name: Generar Snake
 on:
-  schedule:
-    # Se ejecuta diariamente a medianoche UTC
-    - cron: "0 0 * * *" 
+  push:  # Cualquier push a cualquier rama
   workflow_dispatch:
 
 jobs:
   generate:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Permiso vital para subir archivos
+      contents: write
     steps:
-      # 1. Checkout: Cargar el repositorio
       - uses: actions/checkout@v4 
       
-      # 2. Generar el Snake Game
       - name: generate github-contribution-grid-snake.svg
         uses: Platane/snk@v3
         with:
@@ -24,9 +20,8 @@ jobs:
             dist/github-snake-dark.svg?palette=github-dark
             dist/github-snake.gif
 
-      # 3. Commit: Subir los archivos generados (¡ESTE ES EL PASO FALTANTE!)
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5 
         with:
           commit_message: "feat: Actualizar Snake Game Contribution Grid"
-          files: dist/* # Solo sube los archivos dentro de la carpeta dist/
+          files: dist/*
